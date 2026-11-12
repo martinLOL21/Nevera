@@ -15,7 +15,8 @@ import streamlit as st
 BROKER = "157.230.214.127"
 PORT = 1883
 
-TOPIC_BASE = "nevera_Florez"
+# CAMBIA "CAMBIAME" por tu apellido. Debe ser IGUAL en sketch.ino
+TOPIC_BASE = "nevera_CAMBIAME"
 TOPIC_CMD = f"{TOPIC_BASE}/cmd"        # Streamlit -> ESP32
 TOPIC_ESTADO = f"{TOPIC_BASE}/estado"  # ESP32 -> Streamlit
 
@@ -23,7 +24,7 @@ TOPIC_ESTADO = f"{TOPIC_BASE}/estado"  # ESP32 -> Streamlit
 class NeveraMQTT:
     def __init__(self):
         self.lock = threading.Lock()
-        self.estado = {"temp": None, "hum": None, "puerta": "desconocido", "ultimo": None}
+        self.estado = {"temp": None, "hum": None, "puerta": "desconocido", "bloqueada": None, "ultimo": None}
         self.historial = deque(maxlen=300)  # (datetime, temperatura)
         self.eventos = deque(maxlen=50)     # (hora, descripcion)
         self.conectado = False
@@ -68,6 +69,8 @@ class NeveraMQTT:
                 self.estado["hum"] = float(data["hum"])
             if data.get("puerta"):
                 self.estado["puerta"] = data["puerta"]
+            if "bloqueada" in data:
+                self.estado["bloqueada"] = bool(data["bloqueada"])
             self.estado["ultimo"] = ahora
             if data.get("evento"):
                 texto = data["evento"].replace("_", " ")
