@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "author": "Nevera inteligente",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-esp32-devkit-v1", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    { "type": "wokwi-dht22", "id": "dht1", "top": -100, "left": 150, "attrs": { "temperature": "24" } },
+    { "type": "wokwi-servo", "id": "servo1", "top": -120, "left": -170, "attrs": {} },
+    { "type": "wokwi-resistor", "id": "r1", "top": 170, "left": 150, "attrs": { "value": "220" } },
+    { "type": "wokwi-led", "id": "led1", "top": 150, "left": 230, "attrs": { "color": "green" } }
+  ],
+  "connections": [
+    [ "esp:TX0", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX0", "$serialMonitor:TX", "", [] ],
+    [ "esp:3V3", "dht1:VCC", "red", [] ],
+    [ "esp:GND.1", "dht1:GND", "black", [] ],
+    [ "esp:D15", "dht1:SDA", "green", [] ],
+    [ "esp:VIN", "servo1:V+", "red", [] ],
+    [ "esp:GND.2", "servo1:GND", "black", [] ],
+    [ "esp:D13", "servo1:PWM", "orange", [] ],
+    [ "esp:D2", "r1:1", "green", [] ],
+    [ "r1:2", "led1:A", "green", [] ],
+    [ "led1:C", "esp:GND.1", "black", [] ]
+  ],
+  "dependencies": {}
+}
