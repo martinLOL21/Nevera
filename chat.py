@@ -123,10 +123,18 @@ if pregunta:
         st.markdown(texto)
 
 pendiente = st.session_state.pendiente
+bloqueada = nevera.snapshot()[0].get("bloqueada") is True
 if pendiente:
-    if st.button(f"🔓 Abrir nevera para sacar: {pendiente}", type="primary"):
+    if bloqueada:
+        st.warning(
+            "La nevera está bloqueada por temperatura alta. "
+            "Podrás abrirla cuando vuelva a un nivel seguro."
+        )
+    if st.button(
+        f"🔓 Abrir nevera para sacar: {pendiente}", type="primary", disabled=bloqueada
+    ):
         if nevera.publicar("abrir", articulo=pendiente):
-            st.success("Comando enviado. La nevera se cerrará sola cuando la temperatura baje.")
+            st.success("Comando enviado.")
             st.session_state.pendiente = None
         else:
             st.error("No se pudo enviar el comando al broker.")
