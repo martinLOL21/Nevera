@@ -15,8 +15,7 @@ import streamlit as st
 BROKER = "157.230.214.127"
 PORT = 1883
 
-# CAMBIA "CAMBIAME" por tu apellido. Debe ser IGUAL en sketch.ino
-TOPIC_BASE = "nevera_CAMBIAME"
+TOPIC_BASE = "nevera_Florez"
 TOPIC_CMD = f"{TOPIC_BASE}/cmd"        # Streamlit -> ESP32
 TOPIC_ESTADO = f"{TOPIC_BASE}/estado"  # ESP32 -> Streamlit
 
